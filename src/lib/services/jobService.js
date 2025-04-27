@@ -50,32 +50,58 @@ export const deleteJob = async (id) => {
 };
 
 // Enhanced search jobs with multiple filters
-export const searchJobs = async (query, filters = {}, limit = 20) => {
+export const searchJobs = async (query, filters = {}, limit = 50) => {
+    console.log('searchJobs called with query:', query);
     const conditions = [];
 
-    // Add search query condition
-    if (query) {
-        // We'll use a simple array-contains-any for keywords
-        // In a real app with advanced search, you might use a search index or multiple conditions
-        const searchTerms = query.toLowerCase().split(' ');
-        conditions.push({ field: 'keywords', operator: 'array-contains-any', value: searchTerms });
-    }
-
-    // Add filters for each field
-    const filterFields = [
+    // Add filters for each field (but not search query - we'll handle that in JS)
+const filterFields = [
         'position', 'country', 'city', 'experienceLevel', 'teamManagement', 'leadershipExperience',
-        'sector', 'workOption', 'functionalArea', 'travel', 'type', 'salaryCurrency', 'payRange'
+        'sector', 'workOption', 'functionalArea', 'travel', 'type', 'salaryCurrency', 'payRange', 'company'
     ];
 
     filterFields.forEach(field => {
         if (filters[field]) {
-            conditions.push({
-                field,
-                operator: Array.isArray(filters[field]) ? 'in' : '==',
-                value: filters[field]
-            });
+            // Handle array vs single value
+            if (Array.isArray(filters[field])) {
+                if (filters[field].length > 0) {
+                    // If it's a single-item array, use equality for better performance
+                    if (filters[field].length === 1) {
+                        conditions.push({
+                            field,
+                            operator: '==',
+                            value: filters[field][0]
+                        });
+                    } else {
+                        conditions.push({
+                            field,
+                            operator: 'in',
+                            value: filters[field]
+                        });
+                    }
+                }
+            } else {
+                // Handle non-array values
+                conditions.push({
+                    field,
+                    operator: '==',
+                    value: filters[field]
+                });
+            }
         }
     });
+    
+    // Special handling for skills (search in keywords array)
+    if (filters.skills && filters.skills.length > 0) {
+        // For skills, we'll search in the keywords array
+        conditions.push({
+            field: 'keywords',
+            operator: 'array-contains-any',
+            value: filters.skills
+        });
+    }
+    
+    console.log('Query conditions:', conditions);
 
     // Special handling for array fields
     if (filters.education && filters.education.length > 0) {
@@ -113,23 +139,26 @@ export const searchJobs = async (query, filters = {}, limit = 20) => {
         });
     }
 
-    // Get results
+    // Get all matching jobs with filters (but not search)
     let results = await queryDocuments(
         COLLECTION_NAME,
         conditions,
         { field: 'createdAt', direction: 'desc' },
-        limit
+        limit * 2 // Fetch more results since we'll filter them
     );
 
-    // For jobs with no conditions (when both query and filters are empty)
-    if (conditions.length === 0) {
-        results = await queryDocuments(
-            COLLECTION_NAME,
-            [],
-            { field: 'createdAt', direction: 'desc' },
-            limit
+    // Apply case-insensitive title search in JavaScript
+    if (query && query.trim()) {
+        const searchTerm = query.trim().toLowerCase();
+        console.log('Filtering by search term:', searchTerm);
+        results = results.filter(job => 
+            job.title && job.title.toLowerCase().includes(searchTerm)
         );
+        console.log('Found jobs after title filter:', results.length);
     }
+
+    // Limit results after filtering
+    results = results.slice(0, limit);
 
     // Post-processing for search matching (similarity score)
     if (query) {

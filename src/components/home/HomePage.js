@@ -67,10 +67,10 @@ export default function HomePage() {
                 <div className="container mx-auto px-4 pt-32 pb-20 h-full flex flex-col items-start justify-center">
                     <div className="max-w-3xl text-white mt-40 ml-30">
                         <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
-                            Hire <span className="text-blue-400">Top Talent</span><br />
-                            across the Globe<br />
-                            with <span className="text-blue-400">BTW Angels</span>
+                            <span className="text-blue-400">  BACK-TO-WORK</span>ANGELS<br />
+                            People, Companies and Opportunities combined as ONE
                         </h1>
+                      
                         <p className="text-xl mb-12">
                             Thousands of Small businesses & Entrepreneurs use<br />
                             BTW Angels to get their Job done
@@ -137,52 +137,8 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* How It Works Section */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-4">How It Works</h2>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            BTW Angels simplifies your job search process with just a few simple steps
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl font-bold mx-auto mb-4">
-                                1
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">Search Jobs</h3>
-                            <p className="text-gray-600">
-                                Browse thousands of jobs from top employers across various industries and locations
-                            </p>
-                        </div>
-
-                        <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl font-bold mx-auto mb-4">
-                                2
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">Find Matches</h3>
-                            <p className="text-gray-600">
-                                Our intelligent matching system helps you discover roles that fit your skills and preferences
-                            </p>
-                        </div>
-
-                        <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl font-bold mx-auto mb-4">
-                                3
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">Apply Directly</h3>
-                            <p className="text-gray-600">
-                                Connect directly with employers and apply to positions with just a single click
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Recommended Content Section */}
-            <RecommendedContent />
+         
+           
 
             {/* CTA Section */}
             <section className="py-16 bg-gray-900 text-white">

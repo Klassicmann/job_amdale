@@ -3,24 +3,24 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
-const JobFilter = ({ filters, onChange, onClear }) => {
+const JobFilter = ({ filters, onChange, onClear, onFilter = () => {} }) => {
     const [expandedSections, setExpandedSections] = useState({
-        positionSought: true,
-        region: true,
-        country: true,
-        city: true,
-        experienceLevel: true,
-        teamManagement: true,
-        leadership: true,
-        sector: true,
-        workOptions: true,
-        education: true,
-        functionalArea: true,
-        travel: true,
-        salaryCurrency: true,
-        payRange: true,
-        jobLanguage: true,
-        keyTechnicalSkills: true
+        positionSought: false,
+        region: false,
+        country: false,
+        city: false,
+        experienceLevel: false,
+        teamManagement: false,
+        leadership: false,
+        sector: false,
+        workOptions: false,
+        education: false,
+        functionalArea: false,
+        travel: false,
+        salaryCurrency: false,
+        payRange: false,
+        jobLanguage: false,
+        keyTechnicalSkills: false
     });
     
     // State to track the selected country for city filtering
@@ -401,8 +401,8 @@ const JobFilter = ({ filters, onChange, onClear }) => {
                 {expandedSections.positionSought && (
                     <div className="space-y-2 pr-1">
                         <select
-                            name="positionSoughts"
-                            value={filters.positionSoughts?.length > 0 ? filters.positionSoughts[0] : 'all'}
+                            name="positionSought"
+                            value={filters.positionSought?.length > 0 ? filters.positionSought[0] : 'all'}
                             onChange={handleSelectChange}
                             className="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
@@ -430,8 +430,8 @@ const JobFilter = ({ filters, onChange, onClear }) => {
                 {expandedSections.region && (
                     <div className="space-y-2 pr-1">
                         <select
-                            name="regions"
-                            value={filters.regions?.length > 0 ? filters.regions[0] : 'all'}
+                            name="region"
+                            value={filters.region?.length > 0 ? filters.region[0] : 'all'}
                             onChange={handleSelectChange}
                             className="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
@@ -773,11 +773,11 @@ const JobFilter = ({ filters, onChange, onClear }) => {
                             className="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                         >
                             <option value="all">All Pay Ranges</option>
-                            <option value="40000_60000">40,000 - 60,000</option>
-                            <option value="61000_80000">61,000 - 80,000</option>
-                            <option value="81000_100000">81,000 - 100,000</option>
-                            <option value="101000_120000">101,000 - 120,000</option>
-                            <option value="more_than_120000">more than 120,000</option>
+                            <option value="40000_60000">$40,000 - $60,000</option>
+                            <option value="61000_80000">$61,000 - $80,000</option>
+                            <option value="81000_100000">$81,000 - $100,000</option>
+                            <option value="101000_120000">$101,000 - $120,000</option>
+                            <option value="more_than_120000">more than $120,000</option>
                             <option value="not_specified">Not specified (match with any jobseeker's salary range)</option>
                         </select>
                     </div>
@@ -800,7 +800,7 @@ const JobFilter = ({ filters, onChange, onClear }) => {
                         {jobLanguageOptions.map(item => (
                             <div key={item.id} className="flex items-center">
                                 <input
-                                    type="checkbox"
+                                     type="checkbox"
                                     id={`jobLanguage-${item.id}`}
                                     name="jobLanguages"
                                     value={item.id}
@@ -849,10 +849,26 @@ const JobFilter = ({ filters, onChange, onClear }) => {
 
             {/* Clear Filters Button */}
             <button
-                onClick={onClear}
+                onClick={() => {
+                    // Close all expanded sections
+                    const allClosed = Object.keys(expandedSections).reduce((acc, key) => {
+                        acc[key] = false;
+                        return acc;
+                    }, {});
+                    setExpandedSections(allClosed);
+                    
+                    // Call the original onClear function
+                    onClear();
+                }}
                 className="w-full py-2 mt-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
             >
                 Clear All Filters
+            </button>
+            <button
+                onClick={() => onFilter && onFilter()}
+                className="w-full py-2 mt-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-200"
+            >
+                Filter
             </button>
         </div>
     );

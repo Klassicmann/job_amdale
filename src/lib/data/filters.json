@@ -1,0 +1,155 @@
+{
+  "weightage": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "more_than_120000", "label": "$120,000+", "count": 3 },
+    { "id": "101000_120000", "label": "$101,000 - $120,000", "count": 4 },
+    { "id": "81000_100000", "label": "$81,000 - $100,000", "count": 4 },
+    { "id": "61000_80000", "label": "$61,000 - $80,000", "count": 3 },
+    { "id": "40000_60000", "label": "$40,000 - $60,000", "count": 3 }
+  ],
+  "positionsought": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "software_engineer", "label": "Software Engineer", "count": 2 },
+    { "id": "software_developer", "label": "Software Developer", "count": 2 },
+    { "id": "data_scientist", "label": "Data Scientist", "count": 1 },
+    { "id": "designer", "label": "Designer", "count": 1 },
+    { "id": "product_manager", "label": "Product Manager", "count": 1 },
+    { "id": "marketing_specialist", "label": "Marketing Specialist", "count": 1 },
+    { "id": "mechanical_engineer", "label": "Mechanical Engineer", "count": 1 },
+    { "id": "sales_representative", "label": "Sales Representative", "count": 1 },
+    { "id": "project_manager", "label": "Project Manager", "count": 1 },
+    { "id": "hr_manager", "label": "HR Manager", "count": 1 },
+    { "id": "content_writer", "label": "Content Writer", "count": 1 },
+    { "id": "financial_analyst", "label": "Financial Analyst", "count": 1 },
+    { "id": "customer_support", "label": "Customer Support", "count": 1 },
+    { "id": "graphic_designer", "label": "Graphic Designer", "count": 1 }
+  ],
+  "location": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "united_states", "label": "United States", "count": 7 },
+    { "id": "germany", "label": "Germany", "count": 3 },
+    { "id": "canada", "label": "Canada", "count": 2 },
+    { "id": "france", "label": "France", "count": 2 },
+    { "id": "united_kingdom", "label": "United Kingdom", "count": 1 }
+  ],
+  "regioncountrycity": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "san_francisco_ca", "label": "San Francisco, CA", "count": 1 },
+    { "id": "new_york_ny", "label": "New York, NY", "count": 1 },
+    { "id": "berlin_be", "label": "Berlin", "count": 1 },
+    { "id": "toronto", "label": "Toronto", "count": 1 },
+    { "id": "paris", "label": "Paris", "count": 1 },
+    { "id": "austin_tx", "label": "Austin, TX", "count": 1 },
+    { "id": "miami_fl", "label": "Miami, FL", "count": 1 },
+    { "id": "munich", "label": "Munich", "count": 1 },
+    { "id": "chicago_il", "label": "Chicago, IL", "count": 1 },
+    { "id": "vancouver", "label": "Vancouver", "count": 1 },
+    { "id": "seattle_wa", "label": "Seattle, WA", "count": 1 },
+    { "id": "lyon", "label": "Lyon", "count": 1 },
+    { "id": "london", "label": "London", "count": 1 },
+    { "id": "boston_ma", "label": "Boston, MA", "count": 1 },
+    { "id": "montreal", "label": "Montreal", "count": 1 },
+    { "id": "hamburg", "label": "Hamburg", "count": 1 }
+  ],
+  "experience": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "Junior", "label": "Junior", "count": 5 },
+    { "id": "Mid-level", "label": "Mid-level", "count": 5 },
+    { "id": "Senior", "label": "Senior", "count": 5 }
+  ],
+  "levelteammgtleadership": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "Yes", "label": "Team Management", "count": 4 },
+    { "id": "No", "label": "No Team Management", "count": 11 },
+    { "id": "Yes", "label": "Leadership Experience", "count": 4 },
+    { "id": "No", "label": "No Leadership Experience", "count": 11 }
+  ],
+  "sector": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "Technology", "label": "Technology", "count": 6 },
+    { "id": "Creative", "label": "Creative", "count": 2 },
+    { "id": "Marketing", "label": "Marketing", "count": 1 },
+    { "id": "Manufacturing", "label": "Manufacturing", "count": 1 },
+    { "id": "Sales", "label": "Sales", "count": 1 },
+    { "id": "Consulting", "label": "Consulting", "count": 1 },
+    { "id": "Human Resources", "label": "Human Resources", "count": 1 },
+    { "id": "Media", "label": "Media", "count": 1 },
+    { "id": "Finance", "label": "Finance", "count": 1 },
+    { "id": "Customer Service", "label": "Customer Service", "count": 1 }
+  ],
+  "workoptions": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "Remote", "label": "Remote", "count": 5 },
+    { "id": "Hybrid", "label": "Hybrid", "count": 5 },
+    { "id": "On-site", "label": "On-site", "count": 5 }
+  ],
+  "education": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "Bachelor's", "label": "Bachelor's", "count": 15 },
+    { "id": "Master's", "label": "Master's", "count": 5 },
+    { "id": "PhD", "label": "PhD", "count": 1 },
+    { "id": "MBA", "label": "MBA", "count": 1 },
+    { "id": "PMP", "label": "PMP", "count": 1 },
+    { "id": "CFA", "label": "CFA", "count": 1 },
+    { "id": "High School", "label": "High School", "count": 1 }
+  ],
+  "functionalarea": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "Engineering", "label": "Engineering", "count": 5 },
+    { "id": "Design", "label": "Design", "count": 2 },
+    { "id": "Data Science", "label": "Data Science", "count": 1 },
+    { "id": "Product Management", "label": "Product Management", "count": 1 },
+    { "id": "Marketing", "label": "Marketing", "count": 1 },
+    { "id": "Sales", "label": "Sales", "count": 1 },
+    { "id": "Project Management", "label": "Project Management", "count": 1 },
+    { "id": "Human Resources", "label": "Human Resources", "count": 1 },
+    { "id": "Content", "label": "Content", "count": 1 },
+    { "id": "Finance", "label": "Finance", "count": 1 },
+    { "id": "Customer Support", "label": "Customer Support", "count": 1 }
+  ],
+  "travel": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "No", "label": "No Travel", "count": 10 },
+    { "id": "Occasional", "label": "Occasional Travel", "count": 4 },
+    { "id": "Frequent", "label": "Frequent Travel", "count": 1 }
+  ],
+  "salarycurrency": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "USD", "label": "USD", "count": 15 }
+  ],
+  "payrange": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "more_than_120000", "label": "$120,000+", "count": 3 },
+    { "id": "101000_120000", "label": "$101,000 - $120,000", "count": 4 },
+    { "id": "81000_100000", "label": "$81,000 - $100,000", "count": 4 },
+    { "id": "61000_80000", "label": "$61,000 - $80,000", "count": 3 },
+    { "id": "40000_60000", "label": "$40,000 - $60,000", "count": 3 }
+  ],
+  "joblanguage": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "English", "label": "English", "count": 15 },
+    { "id": "German", "label": "German", "count": 3 },
+    { "id": "French", "label": "French", "count": 2 },
+    { "id": "Spanish", "label": "Spanish", "count": 1 }
+  ],
+  "keytechnicalskills": [
+    { "id": "all", "label": "All", "count": 15 },
+    { "id": "JavaScript", "label": "JavaScript", "count": 3 },
+    { "id": "React", "label": "React", "count": 2 },
+    { "id": "Python", "label": "Python", "count": 2 },
+    { "id": "Node.js", "label": "Node.js", "count": 1 },
+    { "id": "AWS", "label": "AWS", "count": 2 },
+    { "id": "Docker", "label": "Docker", "count": 1 },
+    { "id": "Kubernetes", "label": "Kubernetes", "count": 1 },
+    { "id": "Machine Learning", "label": "Machine Learning", "count": 1 },
+    { "id": "SQL", "label": "SQL", "count": 1 },
+    { "id": "Figma", "label": "Figma", "count": 1 },
+    { "id": "Adobe", "label": "Adobe", "count": 1 },
+    { "id": "Swift", "label": "Swift", "count": 1 },
+    { "id": "Kotlin", "label": "Kotlin", "count": 1 },
+    { "id": "React Native", "label": "React Native", "count": 1 },
+    { "id": "CAD", "label": "CAD", "count": 1 },
+    { "id": "Excel", "label": "Excel", "count": 1 }
+  ],
+  "jobmatchestobedisplayedwith170pointsandabove": []
+}

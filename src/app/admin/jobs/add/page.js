@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import ClientProviders from '@/components/providers/ClientProviders';
 
 const AddJobPage = () => {
@@ -10,12 +11,14 @@ const AddJobPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const { currentUser, isSuperAdmin } = useAuth();
   
   // State for country and city selection
   const [selectedCountry, setSelectedCountry] = useState('');
   const [availableCities, setAvailableCities] = useState([]);
   
-  // Data for dropdowns
+  // Data for dropdowns - unchanged
+
   const positions = [
     "Software Developer with focus on automation & robotics",
     "AI/Machine Learning Engineer",
@@ -284,7 +287,13 @@ const AddJobPage = () => {
         ...formData,
         keywords: formData.keywords ? formData.keywords.split(',').map(keyword => keyword.trim()) : [],
         // Ensure location is properly formatted
-        location: formData.location || (formData.city ? `${formData.city}, ${formData.country}` : formData.country)
+        location: formData.location || (formData.city ? `${formData.city}, ${formData.country}` : formData.country),
+        // Add creator information
+        createdBy: currentUser.uid,
+        creatorEmail: currentUser.email,
+        // Set approval status based on user role
+        isApproved: isSuperAdmin, // Auto-approve if super admin
+        status: isSuperAdmin ? 'published' : 'pending'
       };
 
       // Send the data to our API endpoint
@@ -292,6 +301,7 @@ const AddJobPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await currentUser.getIdToken()}`
         },
         body: JSON.stringify(formattedData),
       });
@@ -367,12 +377,20 @@ const AddJobPage = () => {
 
           {success && (
             <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-              Job added successfully! Redirecting...
+              {isSuperAdmin 
+                ? 'Job added and published successfully! Redirecting...'
+                : 'Job added successfully and is awaiting approval from the super admin! Redirecting...'}
+            </div>
+          )}
+
+          {!isSuperAdmin && (
+            <div className="mb-6 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+              Note: As a regular admin, your job posting will need to be approved by the super admin before it appears on the site.
             </div>
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-6">
+          <div className="mb-6">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Basic Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -404,8 +422,8 @@ const AddJobPage = () => {
                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select Position</option>
-                    {positions.map((position) => (
-                      <option key={position} value={position}>
+                    {positions.map((position, idx) => (
+                      <option key={`${position}-${idx}`} value={position}>
                         {position}
                       </option>
                     ))}

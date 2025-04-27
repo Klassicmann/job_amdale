@@ -1,116 +1,205 @@
 'use client';
-
+// src/app/admin/page.js
 import React from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
-import { FaBriefcase, FaChartLine, FaUsers, FaCog } from 'react-icons/fa';
-import ClientProviders from '@/components/providers/ClientProviders';
+import { useRouter } from 'next/navigation';
+import { FaUserShield, FaUserCog, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 
-const AdminDashboardPage = () => {
-  // Example stats - in a real app these would come from your database
-  const stats = [
-    { id: 1, title: 'Total Jobs', value: '24', icon: FaBriefcase, color: 'bg-blue-500' },
-    { id: 2, title: 'Total Views', value: '1,284', icon: FaChartLine, color: 'bg-green-500' },
-    { id: 3, title: 'Applications', value: '342', icon: FaUsers, color: 'bg-purple-500' },
-    { id: 4, title: 'Conversion Rate', value: '26.6%', icon: FaCog, color: 'bg-orange-500' }
-  ];
+export default function DashboardHome() {
+  const { currentUser, logout, isSuperAdmin } = useAuth();
+  const router = useRouter();
 
-  // Menu items for quick access
-  const menuItems = [
-    { id: 1, title: 'Manage Jobs', icon: FaBriefcase, link: '/admin/jobs', description: 'Add, edit, or remove job listings' },
-    { id: 2, title: 'View Analytics', icon: FaChartLine, link: '/admin/analytics', description: 'Monitor website traffic and user engagement' },
-    { id: 3, title: 'Website Settings', icon: FaCog, link: '/admin/settings', description: 'Configure website options and appearance' }
-  ];
+  const handleLogout = async () => {
+    await logout();
+    router.push('/admin/login');
+  };
 
   return (
-    <ClientProviders>
-      <div className="container mx-auto px-4 pt-32 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
-
-          {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            {stats.map((stat) => (
-              <div key={stat.id} className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center">
-                  <div className={`p-3 rounded-full ${stat.color} text-white mr-4`}>
-                    <stat.icon size={24} />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">{stat.title}</p>
-                    <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
-                  </div>
+    <div className="min-h-screen bg-gray-100">
+      {/* Dashboard Header */}
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">Job Board Dashboard</h1>
+          <div className="flex items-center">
+            {currentUser && (
+              <>
+                <div className="mr-4">
+                  <span className="text-gray-600 mr-2">
+                    {currentUser.email}
+                  </span>
+                  {isSuperAdmin && (
+                    <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded flex items-center">
+                      <FaUserShield className="mr-1" /> Super Admin
+                    </span>
+                  )}
+                  {!isSuperAdmin && (
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded flex items-center">
+                      <FaUserCog className="mr-1" /> Admin
+                    </span>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Quick Access Menu */}
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Quick Access</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            {menuItems.map((item) => (
-              <Link key={item.id} href={item.link} className="block">
-                <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 h-full">
-                  <div className="flex items-center mb-4">
-                    <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
-                      <item.icon size={20} />
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
-                  </div>
-                  <p className="text-gray-600">{item.description}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Recent Activity */}
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Recent Activity</h2>
-          <div className="bg-white rounded-lg shadow-md p-6 mb-10">
-            <div className="space-y-4">
-              {/* This would be populated from your analytics data */}
-              <div className="pb-4 border-b border-gray-100">
-                <p className="text-gray-600">New job posted: <span className="font-medium text-gray-800">Senior Frontend Developer</span></p>
-                <p className="text-sm text-gray-500">2 hours ago</p>
-              </div>
-              <div className="pb-4 border-b border-gray-100">
-                <p className="text-gray-600">Job application spike: <span className="font-medium text-gray-800">Data Scientist</span></p>
-                <p className="text-sm text-gray-500">Yesterday</p>
-              </div>
-              <div className="pb-4 border-b border-gray-100">
-                <p className="text-gray-600">New search trend: <span className="font-medium text-gray-800">Remote React Developer</span></p>
-                <p className="text-sm text-gray-500">3 days ago</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Traffic increase: <span className="font-medium text-gray-800">24% from last week</span></p>
-                <p className="text-sm text-gray-500">This week</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Help Resources */}
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Help & Resources</h2>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="space-y-4">
-              <div className="pb-4 border-b border-gray-100">
-                <h3 className="font-medium text-gray-800 mb-1">Documentation</h3>
-                <p className="text-gray-600 mb-2">Check out our comprehensive documentation for administrators.</p>
-                <a href="#" className="text-blue-600 hover:text-blue-800">View Documentation</a>
-              </div>
-              <div className="pb-4 border-b border-gray-100">
-                <h3 className="font-medium text-gray-800 mb-1">Need Help?</h3>
-                <p className="text-gray-600 mb-2">Contact our support team for assistance with any issues.</p>
-                <a href="mailto:support@backtoworkangels.com" className="text-blue-600 hover:text-blue-800">Contact Support</a>
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-800 mb-1">Feature Requests</h3>
-                <p className="text-gray-600 mb-2">Have suggestions for improving the platform? Let us know!</p>
-                <a href="#" className="text-blue-600 hover:text-blue-800">Submit Feedback</a>
-              </div>
-            </div>
+                <button
+                  onClick={handleLogout}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
-      </div>
-    </ClientProviders>
-  );
-};
+      </header>
 
-export default AdminDashboardPage;
+      {/* Dashboard Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Dashboard Cards */}
+          <Link href="/admin/jobs" className="block">
+            <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition">
+              <div className="px-4 py-5 sm:p-6">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                    <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="ml-5">
+                    <h3 className="text-lg font-medium text-gray-900">Manage Jobs</h3>
+                    <p className="text-sm text-gray-500">Add, edit, or remove job listings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          {/* Only show user management for super admin */}
+          {isSuperAdmin && (
+            <Link href="/admin/users" className="block">
+              <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition">
+                <div className="px-4 py-5 sm:p-6">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
+                      <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-lg font-medium text-gray-900">Manage Users</h3>
+                      <p className="text-sm text-gray-500">Add or edit admin users</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Only show job approvals for super admin */}
+          {isSuperAdmin && (
+            <Link href="/admin/jobs/approvals" className="block">
+              <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition">
+                <div className="px-4 py-5 sm:p-6">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                      <FaCheckCircle className="h-6 w-6 text-white" />
+                    </div>
+                    <div className="ml-5">
+                      <h3 className="text-lg font-medium text-gray-900">Job Approvals</h3>
+                      <p className="text-sm text-gray-500">Review and approve jobs</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          <Link href="/admin/analytics" className="block">
+            <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition">
+              <div className="px-4 py-5 sm:p-6">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                    <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                  <div className="ml-5">
+                    <h3 className="text-lg font-medium text-gray-900">Analytics</h3>
+                    <p className="text-sm text-gray-500">View job posting performance</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="mt-8">
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Recent Activity</h2>
+          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+            <ul className="divide-y divide-gray-200">
+              <li>
+                <div className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-blue-600 truncate">
+                      New job posted
+                    </p>
+                    <div className="ml-2 flex-shrink-0 flex">
+                      {isSuperAdmin ? (
+                        <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          <FaCheckCircle className="mr-1" /> Published
+                        </p>
+                      ) : (
+                        <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          <FaExclamationCircle className="mr-1" /> Pending Approval
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-2 sm:flex sm:justify-between">
+                    <div className="sm:flex">
+                      <p className="flex items-center text-sm text-gray-500">
+                        Senior Developer
+                      </p>
+                    </div>
+                    <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                      <p>
+                        Just now
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
+              <li>
+                <div className="px-4 py-4 sm:px-6">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-blue-600 truncate">
+                      User login
+                    </p>
+                    <div className="ml-2 flex-shrink-0 flex">
+                      <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        Info
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-2 sm:flex sm:justify-between">
+                    <div className="sm:flex">
+                      <p className="flex items-center text-sm text-gray-500">
+                        Admin user logged in
+                      </p>
+                    </div>
+                    <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                      <p>
+                        5 minutes ago
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

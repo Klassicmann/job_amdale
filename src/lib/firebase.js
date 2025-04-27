@@ -2,6 +2,7 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,15 +18,22 @@ const firebaseConfig = {
 let firebaseApp;
 let analytics;
 let db;
+let auth;
 
 if (typeof window !== 'undefined' && !getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
   db = getFirestore(firebaseApp);
+  auth = getAuth(firebaseApp);
   // Initialize Analytics only in browser
   analytics = getAnalytics(firebaseApp);
 } else if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
   db = getFirestore(firebaseApp);
+  auth = getAuth(firebaseApp);
+} else {
+  firebaseApp = getApps()[0];
+  db = getFirestore(firebaseApp);
+  auth = getAuth(firebaseApp);
 }
 
-export { db, analytics, firebaseApp };
+export { db, analytics, firebaseApp, auth };

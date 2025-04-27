@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaPlus, FaEdit, FaTrash, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSearch, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
 import ClientProviders from '@/components/providers/ClientProviders';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AdminJobsPage = () => {
   const [jobs, setJobs] = useState([]);
@@ -12,14 +13,23 @@ const AdminJobsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [deleteJobId, setDeleteJobId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { currentUser, isSuperAdmin } = useAuth();
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         setLoading(true);
 
-        // Fetch jobs from our API
-        const response = await fetch('/api/jobs');
+        // Different query for super admin vs regular admin
+        const url = isSuperAdmin 
+          ? '/api/jobs' // Super admins can see all jobs
+          : '/api/jobs?createdBy=' + currentUser.uid; // Regular admins only see their own jobs
+        
+        const response = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${await currentUser.getIdToken()}`
+          }
+        });
 
         if (!response.ok) {
           throw new Error('Failed to fetch jobs');
@@ -36,8 +46,10 @@ const AdminJobsPage = () => {
       }
     };
 
-    fetchJobs();
-  }, []);
+    if (currentUser) {
+      fetchJobs();
+    }
+  }, [currentUser, isSuperAdmin]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -70,6 +82,9 @@ const AdminJobsPage = () => {
     try {
       const response = await fetch(`/api/jobs/${deleteJobId}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${await currentUser.getIdToken()}`
+        }
       });
 
       if (!response.ok) {
@@ -84,6 +99,35 @@ const AdminJobsPage = () => {
       setError('Failed to delete job: ' + err.message);
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'published':
+        return (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+            <FaCheckCircle className="mr-1 self-center" /> Published
+          </span>
+        );
+      case 'pending':
+        return (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+            <FaExclamationCircle className="mr-1 self-center" /> Pending Approval
+          </span>
+        );
+      case 'rejected':
+        return (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+            <FaExclamationCircle className="mr-1 self-center" /> Rejected
+          </span>
+        );
+      default:
+        return (
+          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+            {status}
+          </span>
+        );
     }
   };
 
@@ -148,7 +192,7 @@ const AdminJobsPage = () => {
                           Location
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Type
+                          Status
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Date Added
@@ -171,9 +215,7 @@ const AdminJobsPage = () => {
                             <div className="text-sm text-gray-500">{job.location}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              {job.type}
-                            </span>
+                            {getStatusBadge(job.status)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {formatDate(job.createdAt)}

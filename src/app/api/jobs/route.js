@@ -1,10 +1,36 @@
 import { NextResponse } from 'next/server';
 import { createJob, searchJobs } from '@/lib/services/jobService';
+import { auth } from '@/lib/firebase-admin';
+import { db } from '@/lib/firebase-admin';
+import { jobModel } from '@/lib/models/job';
+
+const SUPER_ADMIN_EMAIL = 'klassicmann0@gmail.com';
 
 export async function POST(request) {
     try {
-        const jobData = await request.json();
+        // Verify authentication
+        const authHeader = request.headers.get('authorization');
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 401 }
+            );
+        }
 
+        const token = authHeader.split('Bearer ')[1];
+        let decodedToken;
+        try {
+            decodedToken = await auth.verifyIdToken(token);
+        } catch (error) {
+            return NextResponse.json(
+                { error: 'Invalid authentication token' },
+                { status: 401 }
+            );
+        }
+        
+        // Parse request body
+        const jobData = await request.json();
+        
         // Basic validation
         if (!jobData.title || !jobData.company || !jobData.position || !jobData.description) {
             return NextResponse.json(
@@ -12,12 +38,30 @@ export async function POST(request) {
                 { status: 400 }
             );
         }
+        
+        // Check if user is super admin
+        const isSuperAdmin = decodedToken.email === SUPER_ADMIN_EMAIL;
+        
+        // Add creator information and approval status
+        jobData.createdBy = decodedToken.uid;
+        jobData.creatorEmail = decodedToken.email;
+        jobData.isSuperAdmin = isSuperAdmin;
+        jobData.isApproved = isSuperAdmin; // Auto-approve if super admin
+        jobData.status = isSuperAdmin ? 'published' : 'pending';
+        
+        if (isSuperAdmin) {
+            jobData.approvedBy = decodedToken.uid;
+            jobData.approvedAt = new Date().toISOString();
+        }
 
-        // Create job in Firebase
+        // Create job in Firebase using existing service
         const job = await createJob(jobData);
 
         return NextResponse.json(
-            { message: 'Job created successfully', job },
+            { 
+                message: isSuperAdmin ? 'Job created and published successfully' : 'Job created and pending approval',
+                job
+            },
             { status: 201 }
         );
     } catch (error) {
@@ -33,6 +77,60 @@ export async function POST(request) {
 export async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
+        
+        // Check for status or createdBy filter from admin users
+        const status = searchParams.get('status');
+        const createdBy = searchParams.get('createdBy');
+        
+        // Handle case where we need to filter by status or creator (for admin usage)
+        if (status || createdBy) {
+            // We'd need authentication for these filters
+            const authHeader = request.headers.get('authorization');
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                const token = authHeader.split('Bearer ')[1];
+                try {
+                    const decodedToken = await auth.verifyIdToken(token);
+                    
+                    // Create base query
+                    let jobsQuery = db.collection('jobs');
+                    
+                    // Apply filters
+                    if (status) {
+                        jobsQuery = jobsQuery.where('status', '==', status);
+                    } else {
+                        // Default to showing published jobs for regular admins
+                        // and all jobs for super admin
+                        if (decodedToken.email !== SUPER_ADMIN_EMAIL) {
+                            jobsQuery = jobsQuery.where('status', '==', 'published');
+                        }
+                    }
+                    
+                    // Filter by creator if requested
+                    if (createdBy) {
+                        jobsQuery = jobsQuery.where('createdBy', '==', createdBy);
+                    }
+                    
+                    // Order by creation date
+                    jobsQuery = jobsQuery.orderBy('createdAt', 'desc');
+                    
+                    // Execute query
+                    const jobsSnapshot = await jobsQuery.get();
+                    
+                    // Format response
+                    const jobs = [];
+                    jobsSnapshot.forEach(doc => {
+                        jobs.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    return NextResponse.json({ jobs, total: jobs.length });
+                } catch (error) {
+                    console.error('Error verifying token:', error);
+                }
+            }
+        }
 
         // Extract search query
         const query = searchParams.get('q') || '';
@@ -63,7 +161,10 @@ export async function GET(request) {
 
             // Other filters
             education: searchParams.get('education') ? searchParams.get('education').split(',') : [],
-            jobLanguages: searchParams.get('jobLanguages') ? searchParams.get('jobLanguages').split(',') : []
+            jobLanguages: searchParams.get('jobLanguages') ? searchParams.get('jobLanguages').split(',') : [],
+            
+            // Always filter by published status for public searches
+            status: 'published'
         };
 
         // Remove empty filters

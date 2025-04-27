@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaBuilding, FaDollarSign, FaShareAlt, FaBookmark, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaBuilding, FaDollarSign, FaShareAlt, FaBookmark, FaExternalLinkAlt, FaGraduationCap, FaLanguage, FaPlane, FaUserTie } from 'react-icons/fa';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
 import ClientProviders from '@/components/providers/ClientProviders';
+import { getJobById } from '@/lib/services/jobService';
+import './jobDetails.css';
 
-
-// Dummy data - would normally come from API/backend
-const dummyJobs = [
+// Sample related jobs for when we don't have enough real related jobs
+const sampleRelatedJobs = [
     {
         id: '1',
         title: 'Senior Frontend Developer',
@@ -136,7 +137,6 @@ const dummyJobs = [
     }
 ];
 
-// Helper functions
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
@@ -151,45 +151,41 @@ export default function JobDetailPage() {
     const { trackEvent } = useAnalytics();
 
     useEffect(() => {
-        // In a real app, you would fetch the job from an API
-        // For now, we'll use the dummy data
-        try {
-            // Simulate API call delay
-            setTimeout(() => {
-                const foundJob = dummyJobs.find(job => job.id === id);
+        // Fetch the job from Firebase
+        const fetchJob = async () => {
+            try {
+                setLoading(true);
+                console.log('Fetching job with ID:', id);
+                
+                const jobData = await getJobById(id);
+                console.log('Job data:', jobData);
 
-                if (foundJob) {
-                    setJob(foundJob);
+                if (jobData) {
+                    setJob(jobData);
 
                     // Track view event
                     trackEvent('view_job', {
-                        jobId: foundJob.id,
-                        jobTitle: foundJob.title,
-                        company: foundJob.company
+                        jobId: jobData.id,
+                        jobTitle: jobData.title,
+                        company: jobData.company
                     });
 
-                    // Find related jobs (same category or keywords overlap)
-                    const related = dummyJobs
-                        .filter(j => j.id !== id &&
-                            (j.category === foundJob.category ||
-                                j.keywords.some(keyword =>
-                                    foundJob.keywords.includes(keyword)
-                                )
-                            )
-                        )
-                        .slice(0, 3);
-
-                    setRelatedJobs(related);
+                    // For now, use sample related jobs
+                    // In a real app, you would fetch related jobs based on category or keywords
+                    setRelatedJobs(sampleRelatedJobs.slice(0, 3));
                 } else {
+                    console.error('Job not found');
                     setError('Job not found');
                 }
-
+            } catch (err) {
+                console.error('Failed to fetch job details:', err);
+                setError('Failed to fetch job details');
+            } finally {
                 setLoading(false);
-            }, 500);
-        } catch (err) {
-            setError('Failed to fetch job details');
-            setLoading(false);
-        }
+            }
+        };
+
+        fetchJob();
     }, [id, trackEvent]);
 
     const handleApplyClick = () => {
@@ -203,14 +199,72 @@ export default function JobDetailPage() {
 
     if (loading) {
         return (
-            <div className="container mx-auto px-4 pt-32 pb-20">
-                <div className="animate-pulse bg-white rounded-lg shadow-md p-8">
-                    <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
-                    <div className="h-6 bg-gray-200 rounded w-1/3 mb-6"></div>
-                    <div className="h-4 bg-gray-200 rounded w-full mb-3"></div>
-                    <div className="h-4 bg-gray-200 rounded w-full mb-3"></div>
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-6"></div>
-                    <div className="h-10 bg-gray-200 rounded w-1/4"></div>
+            <div className="container mx-auto px-4 pt-24 pb-20">
+                <div className="mb-6 animate-pulse">
+                    <div className="h-6 bg-gray-200 rounded w-32"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2">
+                        <div className="job-header bg-white rounded-lg shadow-md p-8 mb-8">
+                            <div className="flex flex-col md:flex-row md:items-start justify-between mb-6">
+                                <div className="flex items-start space-x-4 mb-4 md:mb-0">
+                                    <div className="company-logo h-16 w-16 rounded-lg flex-shrink-0 bg-gray-200 animate-pulse"></div>
+                                    <div className="w-full">
+                                        <div className="h-8 bg-gray-200 rounded w-3/4 mb-3 animate-pulse"></div>
+                                        <div className="h-5 bg-gray-200 rounded w-1/2 mb-3 animate-pulse"></div>
+                                        <div className="flex flex-wrap gap-2">
+                                            <div className="h-6 bg-gray-200 rounded w-24 animate-pulse"></div>
+                                            <div className="h-6 bg-gray-200 rounded w-24 animate-pulse"></div>
+                                            <div className="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-start md:items-end">
+                                    <div className="h-7 bg-gray-200 rounded w-32 mb-3 animate-pulse"></div>
+                                    <div className="flex space-x-2">
+                                        <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                                        <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="mb-8">
+                                <div className="h-7 bg-gray-200 rounded w-48 mb-4 animate-pulse"></div>
+                                <div className="space-y-3">
+                                    <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-5/6 animate-pulse"></div>
+                                </div>
+                            </div>
+                            
+                            <div className="mb-8">
+                                <div className="h-7 bg-gray-200 rounded w-40 mb-4 animate-pulse"></div>
+                                <div className="flex flex-wrap gap-2">
+                                    <div className="h-8 bg-gray-200 rounded-full w-20 animate-pulse"></div>
+                                    <div className="h-8 bg-gray-200 rounded-full w-24 animate-pulse"></div>
+                                    <div className="h-8 bg-gray-200 rounded-full w-16 animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="lg:col-span-1">
+                        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <div className="h-12 bg-gray-200 rounded w-full mb-4 animate-pulse"></div>
+                            <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto animate-pulse"></div>
+                        </div>
+                        
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="h-6 bg-gray-200 rounded w-1/2 mb-4 animate-pulse"></div>
+                            <div className="space-y-4">
+                                <div className="h-20 bg-gray-200 rounded w-full animate-pulse"></div>
+                                <div className="h-20 bg-gray-200 rounded w-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -218,14 +272,22 @@ export default function JobDetailPage() {
 
     if (error || !job) {
         return (
-            <div className="container mx-auto px-4 pt-32 pb-20">
-                <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Job Not Found</h2>
-                    <p className="text-gray-600 mb-6">The job you're looking for doesn't exist or has been removed.</p>
+            <div className="container mx-auto px-4 pt-24 pb-20">
+                <div className="bg-white rounded-lg shadow-md p-12 text-center max-w-2xl mx-auto">
+                    <div className="mb-6">
+                        <svg className="w-20 h-20 text-gray-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Job Not Found</h2>
+                    <p className="text-gray-600 mb-8 text-lg">The job you're looking for doesn't exist or has been removed.</p>
                     <Link
                         href="/jobs"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded transition duration-200"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 inline-flex items-center"
                     >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
                         Browse All Jobs
                     </Link>
                 </div>
@@ -235,61 +297,76 @@ export default function JobDetailPage() {
 
     return (
         <ClientProviders>
-            <div className="container mx-auto px-4 pt-32 pb-20">
-                <div className="mb-6">
-                    <Link href="/jobs" className="text-blue-600 hover:text-blue-800 flex items-center">
-                        &larr; Back to Jobs
+            <div className="container mx-auto px-4 pt-24 pb-20">
+                <div className="mb-8">
+                    <Link href="/jobs" className="text-blue-600 hover:text-blue-800 flex items-center transition-all duration-200 hover:-translate-x-1">
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Back to Jobs
                     </Link>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Content */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-                            <div className="flex flex-col md:flex-row md:items-start justify-between mb-6">
-                                <div className="flex items-start space-x-4 mb-4 md:mb-0">
-                                    <div className="h-16 w-16 rounded bg-gray-100 flex items-center justify-center text-xl font-bold text-gray-500">
+                        <div className="job-header bg-white rounded-lg shadow-md p-8 mb-8">
+                            <div className="flex flex-col md:flex-row md:items-start justify-between mb-8">
+                                <div className="flex items-start space-x-5 mb-6 md:mb-0">
+                                    <div className="company-logo h-20 w-20 rounded-lg flex-shrink-0 flex items-center justify-center text-2xl font-bold text-blue-700 shadow-sm">
                                         {job.company.charAt(0)}
                                     </div>
                                     <div>
-                                        <h1 className="text-3xl font-bold text-gray-800 mb-2">{job.title}</h1>
-                                        <div className="flex items-center text-gray-600 mb-1">
-                                            <FaBuilding className="mr-2" />
-                                            <span>{job.company}</span>
+                                        <h1 className="job-title text-3xl font-bold mb-3">{job.title}</h1>
+                                        <div className="flex items-center text-gray-700 mb-4 text-lg">
+                                            <FaBuilding className="mr-2 text-blue-600" />
+                                            <span className="font-medium">{job.company}</span>
                                         </div>
-                                        <div className="flex flex-wrap gap-y-2 text-sm text-gray-500">
-                                            <div className="flex items-center mr-4">
-                                                <FaMapMarkerAlt className="mr-1 text-gray-400" />
-                                                <span>{job.location}</span>
-                                            </div>
-                                            <div className="flex items-center mr-4">
-                                                <FaBriefcase className="mr-1 text-gray-400" />
-                                                <span>{job.type}</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <FaCalendarAlt className="mr-1 text-gray-400" />
-                                                <span>Posted {formatDate(job.createdAt)}</span>
-                                            </div>
+                                        <div className="flex flex-wrap gap-3">
+                                            {job.location && (
+                                                <div className="job-meta-item">
+                                                    <FaMapMarkerAlt className="job-meta-icon" />
+                                                    <span>{job.location}</span>
+                                                </div>
+                                            )}
+                                            {job.type && (
+                                                <div className="job-meta-item">
+                                                    <FaBriefcase className="job-meta-icon" />
+                                                    <span>{job.type}</span>
+                                                </div>
+                                            )}
+                                            {job.createdAt && (
+                                                <div className="job-meta-item">
+                                                    <FaCalendarAlt className="job-meta-icon" />
+                                                    <span>Posted {formatDate(job.createdAt)}</span>
+                                                </div>
+                                            )}
+                                            {job.experienceLevel && (
+                                                <div className="job-meta-item">
+                                                    <FaUserTie className="job-meta-icon" />
+                                                    <span>{job.experienceLevel}</span>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="flex flex-col items-start md:items-end">
                                     {job.salary && (
-                                        <div className="flex items-center text-green-600 font-medium mb-2">
+                                        <div className="job-salary mb-4">
                                             <FaDollarSign className="mr-1" />
-                                            <span>{job.salary}</span>
+                                            <span>{job.salary.startsWith('$') ? job.salary : `$${job.salary}`}</span>
                                         </div>
                                     )}
-                                    <div className="flex space-x-2">
+                                    <div className="flex space-x-3">
                                         <button
-                                            className="text-gray-500 hover:text-blue-600 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200"
+                                            className="action-button text-blue-600 hover:text-blue-700 p-3 rounded-full bg-blue-50 hover:bg-blue-100 transition duration-200"
                                             title="Share this job"
                                         >
                                             <FaShareAlt />
                                         </button>
                                         <button
-                                            className="text-gray-500 hover:text-yellow-600 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200"
+                                            className="action-button text-yellow-600 hover:text-yellow-700 p-3 rounded-full bg-yellow-50 hover:bg-yellow-100 transition duration-200"
                                             title="Save this job"
                                         >
                                             <FaBookmark />
@@ -299,24 +376,48 @@ export default function JobDetailPage() {
                             </div>
 
                             <div className="mb-8">
-                                <h2 className="text-xl font-semibold mb-4 text-gray-800">Job Description</h2>
-                                <div className="prose max-w-none text-gray-700">
-                                    {job.description.split('\n\n').map((paragraph, index) => (
-                                        <p key={index} className="mb-4">
-                                            {paragraph}
-                                        </p>
-                                    ))}
+                                <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">Job Description</h2>
+                                <div className="job-description prose max-w-none text-gray-700">
+                                    {job.description.split('\n\n').map((paragraph, index) => {
+                                        // Check if paragraph starts with ** for headers
+                                        if (paragraph.startsWith('**') && paragraph.includes(':**')) {
+                                            const [header, content] = paragraph.split(':**');
+                                            return (
+                                                <div key={index} className="mb-5">
+                                                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                                                        {header.replace(/\*\*/g, '')}
+                                                    </h3>
+                                                    <p className="text-gray-700">{content}</p>
+                                                </div>
+                                            );
+                                        } else if (paragraph.startsWith('- ')) {
+                                            // Handle bullet points
+                                            return (
+                                                <ul key={index} className="list-disc pl-5 mb-4 text-gray-700 space-y-1">
+                                                    {paragraph.split('\n').map((item, i) => (
+                                                        <li key={i}>{item.replace('- ', '')}</li>
+                                                    ))}
+                                                </ul>
+                                            );
+                                        } else {
+                                            return (
+                                                <p key={index} className="mb-4 text-gray-700">
+                                                    {paragraph}
+                                                </p>
+                                            );
+                                        }
+                                    })}
                                 </div>
                             </div>
 
                             {job.keywords && job.keywords.length > 0 && (
                                 <div className="mb-8">
-                                    <h2 className="text-xl font-semibold mb-4 text-gray-800">Skills & Expertise</h2>
-                                    <div className="flex flex-wrap gap-2">
+                                    <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">Skills & Expertise</h2>
+                                    <div className="flex flex-wrap gap-3">
                                         {job.keywords.map((keyword, index) => (
                                             <span
                                                 key={index}
-                                                className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full"
+                                                className="skill-tag px-4 py-2 rounded-lg text-blue-700 font-medium"
                                             >
                                                 {keyword}
                                             </span>
@@ -324,23 +425,58 @@ export default function JobDetailPage() {
                                     </div>
                                 </div>
                             )}
+                            
+                            {job.education && job.education.length > 0 && (
+                                <div className="mb-8">
+                                    <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">Education</h2>
+                                    <div className="flex flex-wrap gap-3">
+                                        {job.education.map((edu, index) => (
+                                            <div key={index} className="job-meta-item">
+                                                <FaGraduationCap className="job-meta-icon" />
+                                                <span>{edu}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {job.jobLanguages && job.jobLanguages.length > 0 && (
+                                <div className="mb-8">
+                                    <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">Languages</h2>
+                                    <div className="flex flex-wrap gap-3">
+                                        {job.jobLanguages.map((lang, index) => (
+                                            <div key={index} className="job-meta-item">
+                                                <FaLanguage className="job-meta-icon" />
+                                                <span>{lang}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
 
                             {job.benefits && job.benefits.length > 0 && (
-                                <div>
-                                    <h2 className="text-xl font-semibold mb-4 text-gray-800">Benefits</h2>
-                                    <ul className="list-disc pl-5 text-gray-700 space-y-2">
+                                <div className="mb-8">
+                                    <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">Benefits</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                         {job.benefits.map((benefit, index) => (
-                                            <li key={index}>{benefit}</li>
+                                            <div key={index} className="flex items-center p-3 bg-green-50 rounded-lg">
+                                                <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                <span className="text-gray-700">{benefit}</span>
+                                            </div>
                                         ))}
-                                    </ul>
+                                    </div>
                                 </div>
                             )}
                         </div>
 
                         {job.aboutCompany && (
                             <div className="bg-white rounded-lg shadow-md p-8">
-                                <h2 className="text-xl font-semibold mb-4 text-gray-800">About {job.company}</h2>
-                                <p className="text-gray-700">{job.aboutCompany}</p>
+                                <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">About {job.company}</h2>
+                                <div className="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-500">
+                                    <p className="text-gray-700 italic">{job.aboutCompany}</p>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -353,31 +489,66 @@ export default function JobDetailPage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={handleApplyClick}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center transition duration-200 mb-4"
+                                className="apply-button w-full text-white font-bold py-4 px-6 rounded-lg flex items-center justify-center transition duration-200 mb-4 text-lg"
                             >
                                 Apply Now <FaExternalLinkAlt className="ml-2" />
                             </a>
                             <p className="text-sm text-gray-500 text-center">
                                 This will take you to the company's website
                             </p>
+                            
+                            {job.salary && (
+                                <div className="mt-6 pt-6 border-t border-gray-100">
+                                    <h3 className="text-md font-semibold mb-3 text-gray-700">Compensation</h3>
+                                    <div className="bg-green-50 p-4 rounded-lg flex items-center justify-center">
+                                        <FaDollarSign className="text-green-600 mr-2 text-xl" />
+                                        <span className="text-green-700 font-bold text-lg">
+                                            {job.salary.startsWith('$') ? job.salary : `$${job.salary}`}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {job.type && (
+                                <div className="mt-4 pt-4 border-t border-gray-100">
+                                    <h3 className="text-md font-semibold mb-3 text-gray-700">Job Type</h3>
+                                    <div className="bg-blue-50 p-3 rounded-lg flex items-center justify-center">
+                                        <FaBriefcase className="text-blue-600 mr-2" />
+                                        <span className="text-blue-700 font-medium">{job.type}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {relatedJobs.length > 0 && (
                             <div className="bg-white rounded-lg shadow-md p-6">
-                                <h3 className="text-lg font-semibold mb-4 text-gray-800">Similar Jobs</h3>
-                                <div className="space-y-4">
+                                <h3 className="section-title text-lg font-semibold mb-6 text-gray-800">Similar Jobs</h3>
+                                <div className="space-y-5">
                                     {relatedJobs.map(relatedJob => (
-                                        <div key={relatedJob.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                                        <div key={relatedJob.id} className="related-job-card border-b border-gray-100 pb-5 last:border-0 last:pb-0 pl-3">
                                             <Link
-                                                href={`/job/${relatedJob.id}`}
-                                                className="text-lg font-medium text-gray-800 hover:text-blue-600 block mb-1"
+                                                href={`/jobs/${relatedJob.id}`}
+                                                className="text-lg font-medium text-gray-800 hover:text-blue-600 block mb-2"
                                             >
                                                 {relatedJob.title}
                                             </Link>
-                                            <p className="text-gray-600 mb-1">{relatedJob.company}</p>
-                                            <div className="flex items-center text-sm text-gray-500">
-                                                <FaMapMarkerAlt className="mr-1 text-gray-400" />
-                                                <span>{relatedJob.location}</span>
+                                            <div className="flex items-center text-gray-600 mb-2">
+                                                <FaBuilding className="mr-2 text-blue-500" />
+                                                <span>{relatedJob.company}</span>
+                                            </div>
+                                            <div className="flex flex-wrap gap-2">
+                                                {relatedJob.location && (
+                                                    <div className="flex items-center text-sm bg-gray-100 px-2 py-1 rounded">
+                                                        <FaMapMarkerAlt className="mr-1 text-gray-500" />
+                                                        <span className="text-gray-700">{relatedJob.location}</span>
+                                                    </div>
+                                                )}
+                                                {relatedJob.salary && (
+                                                    <div className="flex items-center text-sm bg-green-50 px-2 py-1 rounded">
+                                                        <FaDollarSign className="mr-1 text-green-500" />
+                                                        <span className="text-green-700">{relatedJob.salary.startsWith('$') ? relatedJob.salary : `$${relatedJob.salary}`}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     ))}

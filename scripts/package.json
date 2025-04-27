@@ -1,0 +1,14 @@
+{
+  "name": "job-search-platform-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for job search platform",
+  "main": "populate-jobs.js",
+  "scripts": {
+    "populate": "node populate-jobs.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "firebase": "^11.6.0",
+    "firebase-admin": "^11.5.0"
+  }
+}

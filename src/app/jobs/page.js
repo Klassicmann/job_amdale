@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import JobList from '@/components/job/JobList';
+import PopularSearches from '@/components/job/PopularSearches';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
 
 // Dummy data - would normally come from API
@@ -218,8 +219,10 @@ const dummyJobs = [
 ];
 
 export default function JobsPage() {
+
     const searchParams = useSearchParams();
-    const query = searchParams.get('q') || '';
+    // Check for both 'q' (direct URL parameter) and 'search' (from PopularSearches component)
+    const query = searchParams.get('q') || searchParams.get('search') || '';
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const { trackEvent } = useAnalytics();
@@ -248,12 +251,17 @@ export default function JobsPage() {
 
                 if (query) {
                     const searchQuery = query.toLowerCase();
+                    console.log('Filtering jobs by search query:', searchQuery);
+                    
+                    // Filter jobs by search query
                     filteredJobs = filteredJobs.filter(job =>
-                        job.title.toLowerCase().includes(searchQuery) ||
-                        job.company.toLowerCase().includes(searchQuery) ||
-                        job.description.toLowerCase().includes(searchQuery) ||
-                        job.keywords.some(keyword => keyword.toLowerCase().includes(searchQuery))
+                        (job.title && job.title.toLowerCase().includes(searchQuery)) ||
+                        (job.company && job.company.toLowerCase().includes(searchQuery)) ||
+                        (job.description && job.description.toLowerCase().includes(searchQuery)) ||
+                        (job.keywords && job.keywords.some(keyword => keyword.toLowerCase().includes(searchQuery)))
                     );
+                    
+                    console.log(`Found ${filteredJobs.length} jobs matching "${searchQuery}"`);
 
                     // Track search event
                     trackEvent('search', {
@@ -279,6 +287,7 @@ export default function JobsPage() {
 
     return (
         <div className="container mx-auto px-4 pt-32 pb-20">
+
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                     {query ? `Search Results for "${query}"` : 'Browse Jobs'}
@@ -291,6 +300,9 @@ export default function JobsPage() {
                             : 'No jobs found. Try adjusting your search criteria.'}
                 </p>
             </div>
+
+            {/* Popular Job Searches */}
+            {!query && <PopularSearches />}
 
             {loading ? (
                 <div className="animate-pulse space-y-4">

@@ -1,0 +1,156 @@
+/* Job Details Page Custom Styling */
+
+.job-header {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: #2d3748; /* Ensure text is dark enough to read */
+}
+
+/* Background pattern removed */
+
+.company-logo {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.job-title {
+  font-weight: 700;
+  background: linear-gradient(90deg, #2c5282 0%, #4299e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.job-meta-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  color: #2d3748; /* Ensure text is dark enough to read */
+}
+
+.job-meta-item:hover {
+  background-color: #edf2f7;
+  transform: translateY(-2px);
+  border-color: #cbd5e0;
+}
+
+.job-meta-icon {
+  color: #4299e1;
+  margin-right: 0.5rem;
+}
+
+.job-salary {
+  background: linear-gradient(135deg, #d6ffec 0%, #c6f6d5 100%);
+  color: #38a169;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.action-button {
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+}
+
+.apply-button {
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  box-shadow: 0 4px 10px rgba(49, 130, 206, 0.3);
+  transition: all 0.3s ease;
+}
+
+.apply-button:hover {
+  box-shadow: 0 6px 15px rgba(49, 130, 206, 0.4);
+  transform: translateY(-3px);
+}
+
+.section-title {
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 60px;
+  background: linear-gradient(90deg, #4299e1 0%, #63b3ed 100%);
+  border-radius: 3px;
+}
+
+.job-description p {
+  line-height: 1.8;
+}
+
+.skill-tag {
+  background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+  color: #2b6cb0;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.skill-tag:hover {
+  background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%);
+  transform: translateY(-2px);
+}
+
+.related-job-card {
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.related-job-card:hover {
+  border-left-color: #4299e1;
+  transform: translateX(3px);
+}
+
+/* Animation for loading state */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .job-header {
+    padding: 1.5rem;
+  }
+  
+  .job-meta-items {
+    flex-direction: column;
+  }
+  
+  .job-meta-item {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+}
