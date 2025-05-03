@@ -1,7 +1,8 @@
 // This is a Next.js API route for Stripe PaymentIntent creation (test mode)
 import Stripe from 'stripe';
 
-const stripe = new Stripe("sk_test_51R3kNuIzXmO4TxYQK...YOUR_SECRET_KEY...", { apiVersion: '2022-11-15' });
+// Initialize Stripe with API key from environment variables
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2022-11-15' });
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
