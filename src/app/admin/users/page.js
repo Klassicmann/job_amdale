@@ -32,7 +32,7 @@ const ManageUsersPage = () => {
       try {
         setLoading(true);
         const token = await currentUser.getIdToken();
-        
+
         const response = await fetch('/api/users', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ const ManageUsersPage = () => {
 
     try {
       const token = await currentUser.getIdToken();
-      
+
       const response = await fetch(`/api/users/${deleteUserId}`, {
         method: 'DELETE',
         headers: {
@@ -101,11 +101,11 @@ const ManageUsersPage = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
-    
+
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) return 'N/A';
-      
+
       return date.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -123,8 +123,8 @@ const ManageUsersPage = () => {
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h1 className="text-2xl font-bold text-red-600">Access Denied</h1>
             <p className="mt-2">Only super admins can access this page.</p>
-            <Link 
-              href="/admin" 
+            <Link
+              href="/admin"
               className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
               Back to Dashboard
@@ -137,8 +137,8 @@ const ManageUsersPage = () => {
 
   return (
     <ClientProviders>
-      <Header />
-      <div className="container mx-auto px-4 pt-32 pb-20">
+      {/* Header removed, handled by AdminLayout's Sidebar */}
+      <div className="container mx-auto px-4 py-8"> {/* Adjusted padding */}
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">Manage Admin Users</h1>

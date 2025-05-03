@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }) {
   useEffect(() => {
     // If not loading and no user is logged in, redirect to login
     if (!loading && !currentUser) {
-      router.push('/dashboard/login');
+      router.push('/admin/login');
     }
   }, [currentUser, loading, router]);
 

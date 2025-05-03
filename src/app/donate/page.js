@@ -14,7 +14,7 @@ export default function DonatePage() {
     <div className="relative min-h-screen flex flex-col items-center justify-center py-16 px-2 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 overflow-x-hidden">
       {/* Decorative SVG or blur background */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg width="100%" height="100%" className="opacity-20 blur-2xl" style={{position:'absolute',top:0,left:0}}>
+        <svg width="100%" height="100%" className="opacity-20 blur-2xl" style={{ position: 'absolute', top: 0, left: 0 }}>
           <defs>
             <radialGradient id="g1" cx="50%" cy="50%" r="80%">
               <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.2" />
@@ -30,7 +30,7 @@ export default function DonatePage() {
             <img src="/logo.png" alt="BTW Angels" className="w-10 h-10 rounded-full mr-2" />
             <h1 className="text-3xl font-bold text-blue-700 tracking-tight">Support Our Mission</h1>
           </div>
-          <p className="text-gray-700 text-center mb-6">Your donation helps us connect more people, companies, and opportunities.<br/> <span className="font-medium text-blue-600">100% Secure & Impactful.</span></p>
+          <p className="text-gray-700 text-center mb-6">Your donation helps us connect more people, companies, and opportunities.<br /> <span className="font-medium text-blue-600">100% Secure & Impactful.</span></p>
 
           {/* Tabs */}
           <div className="flex justify-center mb-6">
@@ -91,7 +91,7 @@ export default function DonatePage() {
                 className="block w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 rounded-lg text-center shadow transition-colors mt-6 mb-2"
               >
                 <span className="inline-flex items-center justify-center">
-                  <svg className="w-6 h-6 mr-2" viewBox="0 0 32 32"><path fill="#003087" d="M29.7 7.1c-.5-.6-1.2-1-2-1.1-.2 0-.4-.1-.6-.1H12.7c-.6 0-1.1.4-1.2 1l-4.2 22.3c-.1.5.3 1 .8 1h4.3c.5 0 1-.4 1.1-.9l.7-3.9c.1-.5.6-.9 1.1-.9h2.2c5.6 0 10-2.3 11.3-8.9.6-3 .3-5.5-1.3-7.5z"/><path fill="#3086C8" d="M28.6 7.1c-.5-.6-1.2-1-2-1.1-.2 0-.4-.1-.6-.1H12.7c-.6 0-1.1.4-1.2 1l-4.2 22.3c-.1.5.3 1 .8 1h4.3c.5 0 1-.4 1.1-.9l.7-3.9c.1-.5.6-.9 1.1-.9h2.2c5.6 0 10-2.3 11.3-8.9.6-3 .3-5.5-1.3-7.5z" opacity=".5"/></svg>
+                  <svg className="w-6 h-6 mr-2" viewBox="0 0 32 32"><path fill="#003087" d="M29.7 7.1c-.5-.6-1.2-1-2-1.1-.2 0-.4-.1-.6-.1H12.7c-.6 0-1.1.4-1.2 1l-4.2 22.3c-.1.5.3 1 .8 1h4.3c.5 0 1-.4 1.1-.9l.7-3.9c.1-.5.6-.9 1.1-.9h2.2c5.6 0 10-2.3 11.3-8.9.6-3 .3-5.5-1.3-7.5z" /><path fill="#3086C8" d="M28.6 7.1c-.5-.6-1.2-1-2-1.1-.2 0-.4-.1-.6-.1H12.7c-.6 0-1.1.4-1.2 1l-4.2 22.3c-.1.5.3 1 .8 1h4.3c.5 0 1-.4 1.1-.9l.7-3.9c.1-.5.6-.9 1.1-.9h2.2c5.6 0 10-2.3 11.3-8.9.6-3 .3-5.5-1.3-7.5z" opacity=".5" /></svg>
                   Donate with PayPal
                 </span>
               </a>
@@ -101,37 +101,13 @@ export default function DonatePage() {
           {/* Impact/Trust/Contact Info */}
           <div className="mt-8 flex flex-col items-center text-center">
             <div className="flex items-center gap-2 mb-2">
-              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               <span className="font-semibold text-green-600">100% Secure payments by Stripe & PayPal</span>
             </div>
             <div className="text-sm text-gray-600 mb-1">Your donation helps over <span className="text-blue-700 font-bold">500+</span> people each month.</div>
             <div className="text-sm text-gray-500">Email: <a className="text-blue-600 underline" href="mailto:donate@btwangels.com">donate@btwangels.com</a> | Phone: <a className="text-blue-600 underline" href="tel:+1234567890">+1 234 567 890</a></div>
             <div className="text-sm text-gray-500">Address: 123 Startup Lane, Innovation City, Country</div>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Donate with Card
-              </button>
-            </form>
-          </div>
-        </div>
-        {submitted && (
-          <div className="mt-6 text-green-600 font-semibold text-center">
-            Thank you for your generous support!
-          </div>
-        )}
-        <div className="mt-10 border-t pt-6">
-          <h2 className="text-xl font-bold mb-2 text-gray-700">Other Ways to Support</h2>
-          <p className="text-gray-600 mb-1">Email: <a className="text-blue-600 underline" href="mailto:donate@btwangels.com">donate@btwangels.com</a></p>
-          <p className="text-gray-600 mb-1">Phone: <a className="text-blue-600 underline" href="tel:+1234567890">+1 234 567 890</a></p>
-          <p className="text-gray-600">Address: 123 Startup Lane, Innovation City, Country</p>
         </div>
       </div>
     </div>

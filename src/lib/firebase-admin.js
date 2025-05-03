@@ -2,6 +2,8 @@
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
+import path from 'path';
+import fs from 'fs';
 // Note: Firebase Analytics is not available in the Firebase Admin SDK (server-side)
 // If you need analytics on the server, you must use BigQuery exports or client-side analytics.
 // We export a no-op analytics object for compatibility with client code.
@@ -19,20 +21,28 @@ export function initAdmin() {
   try {
     // Only initialize if it hasn't been initialized
     if (getApps().length === 0) {
-      // Handle service account
+      // Load the service account file
       let serviceAccount;
       
       try {
-        // First try to parse the service account if it's a JSON string
+        // Path to the service account file
+        const serviceAccountPath = path.join(process.cwd(), 'job-search-platform-service.json');
+        
+        // Read and parse the service account file
+        const serviceAccountFile = fs.readFileSync(serviceAccountPath, 'utf8');
+        serviceAccount = JSON.parse(serviceAccountFile);
+        
+        console.log('Service account loaded successfully from file');
+      } catch (err) {
+        console.error('Error loading service account file:', err);
+        
+        // Fallback to environment variable if file reading fails
         if (typeof process.env.FIREBASE_SERVICE_ACCOUNT_KEY === 'string') {
+          console.log('Falling back to FIREBASE_SERVICE_ACCOUNT_KEY environment variable');
           serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
         } else {
-          console.error('FIREBASE_SERVICE_ACCOUNT_KEY is not a string');
-          throw new Error('Invalid service account format');
+          throw new Error('Failed to load service account credentials');
         }
-      } catch (err) {
-        console.error('Error parsing service account JSON:', err);
-        throw new Error('Failed to parse service account JSON');
       }
       
       // Initialize the app

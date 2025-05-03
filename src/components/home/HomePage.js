@@ -86,9 +86,9 @@ export default function HomePage() {
 
                         {/* Popular Searches */}
                         <div className="mb-8">
-                            <p className="text-gray-300 mb-2">Popular Searches:</p>
+                            <p className="text-gray-300 mb-2">Popular Job Searches:</p>
                             <div className="flex flex-wrap gap-2">
-                                {['Designer', 'Developer', 'Web Design', 'Logo Design', 'WordPress'].map((term, index) => (
+                                {['AI/Machine Learning Specialist', 'Renewable Energy Technician/Engineer', 'Software Developer'].map((term, index) => (
                                     <button
                                         key={index}
                                         onClick={() => handleSearch(term)}

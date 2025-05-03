@@ -8,6 +8,7 @@ import ClientProviders from '@/components/providers/ClientProviders';
 
 const CreateUserPage = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,6 +40,12 @@ const CreateUserPage = () => {
       setError("Password must be at least 6 characters");
       return;
     }
+
+    // Validate name
+    if (!name.trim()) {
+      setError("Name is required");
+      return;
+    }
     
     setIsSubmitting(true);
     
@@ -54,6 +61,7 @@ const CreateUserPage = () => {
         body: JSON.stringify({
           email,
           password,
+          name,
           role: 'admin'
         })
       });
@@ -66,6 +74,7 @@ const CreateUserPage = () => {
       
       setSuccess(true);
       setEmail('');
+      setName('');
       setPassword('');
       setConfirmPassword('');
       
@@ -127,6 +136,22 @@ const CreateUserPage = () => {
           )}
 
           <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                Full Name*
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="John Doe"
+              />
+            </div>
+
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                 Email Address*
