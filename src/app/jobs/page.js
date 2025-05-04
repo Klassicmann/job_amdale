@@ -251,7 +251,7 @@ export default function JobsPage() {
 
                 if (query) {
                     const searchQuery = query.toLowerCase();
-                    console.log('Filtering jobs by search query:', searchQuery);
+                    console.log('Filtering jobs by search query: ' + searchQuery);
                     
                     // Filter jobs by search query
                     filteredJobs = filteredJobs.filter(job =>
@@ -261,7 +261,7 @@ export default function JobsPage() {
                         (job.keywords && job.keywords.some(keyword => keyword.toLowerCase().includes(searchQuery)))
                     );
                     
-                    console.log(`Found ${filteredJobs.length} jobs matching "${searchQuery}"`);
+                    console.log('Found ' + filteredJobs.length + ' jobs matching "' + searchQuery + '"');
 
                     // Track search event
                     trackEvent('search', {
@@ -290,13 +290,13 @@ export default function JobsPage() {
 
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                    {query ? `Search Results for "${query}"` : 'Browse Jobs'}
+                    {query ? ('Search Results for "' + query + '"') : 'Browse Jobs'}
                 </h1>
                 <p className="text-gray-600">
                     {loading
                         ? 'Searching for the best job matches...'
                         : jobs.length > 0
-                            ? `Found ${jobs.length} jobs${query ? ` matching "${query}"` : ''}`
+                            ? ('Found ' + jobs.length + ' jobs' + (query ? (' matching "' + query + '"') : ''))
                             : 'No jobs found. Try adjusting your search criteria.'}
                 </p>
             </div>
