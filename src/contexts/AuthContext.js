@@ -9,8 +9,8 @@ import {
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { auth } from '@/lib/firebase';
 
-// Define the super admin email
-const SUPER_ADMIN_EMAIL = 'klassicmann0@gmail.com';
+// Define the super admin emails as an array to support multiple super admins
+const SUPER_ADMIN_EMAILS = ['klassicmann0@gmail.com', 'fleurdelys206@gmail.com'];
 
 // Create context
 const AuthContext = createContext();
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
 
   // Check if current user is super admin
   const checkSuperAdmin = (user) => {
-    if (user && user.email === SUPER_ADMIN_EMAIL) {
+    if (user && SUPER_ADMIN_EMAILS.includes(user.email)) {
       setIsSuperAdmin(true);
       setUserRole('superadmin');
     } else {
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
     setError,
     isSuperAdmin,
     userRole,
-    SUPER_ADMIN_EMAIL  // Export the constant for use in other components
+    SUPER_ADMIN_EMAILS  // Export the array for use in other components
   };
 
   return (
