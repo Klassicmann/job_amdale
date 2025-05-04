@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllFilterAnalytics } from '../../lib/jobFilterAnalytics';
-import { FaUsers, FaBriefcase, FaMapMarkerAlt, FaFilter, FaHistory, FaChartLine } from 'react-icons/fa'; // Example icons
+import { FaUsers, FaBriefcase, FaFilter, FaHistory, FaChartLine } from 'react-icons/fa'; // Example icons
 
 // Mock Data (assuming this stays for now)
 const mockGeoData = [
