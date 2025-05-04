@@ -65,13 +65,13 @@ export default function HomePage() {
 
                 <div className="container mx-auto px-4 pt-32 pb-20 h-full flex flex-col items-start justify-center">
                     <div className="max-w-3xl text-white mt-40 ml-30">
-                        <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
-                            <span className="text-blue-400">  BACK-TO-WORK</span>ANGELS<br />
-                            People, Companies and Opportunities combined as ONE
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                            <span className="text-blue-400">BACK-TO-WORK</span>ANGELS<br />
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">People, Companies and Opportunities combined as ONE</span>
                         </h1>
                       
-                        <p className="text-xl mb-12">
-                            Thousands of Small businesses & Entrepreneurs use<br />
+                        <p className="text-lg sm:text-xl mb-12">
+                            Thousands of Small businesses & Entrepreneurs use<br className="hidden sm:block" />
                             BTW Angels to get their Job done
                         </p>
 
