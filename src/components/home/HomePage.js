@@ -6,8 +6,7 @@ import Link from 'next/link';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
 import SearchBar from '@/components/common/SearchBar';
 import FeaturedJobs from '@/components/job/FeaturedJobs';
-import RecommendedContent from '@/components/home/RecommendedContent';
-import { FaSearch, FaBriefcase, FaUsers, FaBullhorn } from 'react-icons/fa';
+import { FaBriefcase, FaUsers, FaBullhorn } from 'react-icons/fa';
 
 // Statistics to display
 const siteStats = [

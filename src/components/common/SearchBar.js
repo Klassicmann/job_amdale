@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaSearch, FaMapMarkerAlt, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
 
 const SearchBar = ({

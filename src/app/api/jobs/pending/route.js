@@ -20,7 +20,8 @@ export async function GET(request) {
     let decodedToken;
     try {
       decodedToken = await auth.verifyIdToken(token);
-    } catch (error) {
+    } catch (err) {
+      console.error('Token verification error:', err);
       return NextResponse.json(
         { error: 'Invalid authentication token' },
         { status: 401 }

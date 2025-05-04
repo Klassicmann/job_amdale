@@ -1,7 +1,6 @@
 'use client';
 // src/app/admin/filters/page.js
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { 
   getFilterCategories, 
   addFilterCategory, 
@@ -13,15 +12,12 @@ import {
 import { 
   FaPlus, 
   FaTrash, 
-  FaEdit, 
-  FaCheck, 
   FaTimes,
   FaChevronDown,
   FaChevronUp
 } from 'react-icons/fa';
 
 export default function FiltersManagementPage() {
-  const { currentUser, isSuperAdmin } = useAuth();
   const [categories, setCategories] = useState([]);
   const [filterValues, setFilterValues] = useState({});
   const [expandedCategory, setExpandedCategory] = useState(null);

@@ -9,7 +9,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, currentUser, error, setError } = useAuth();
+  const { login, currentUser, error } = useAuth();
   const router = useRouter();
 
   // If user is already logged in, redirect to dashboard

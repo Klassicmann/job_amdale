@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { createJob, searchJobs } from '@/lib/services/jobService';
 import { auth } from '@/lib/firebase-admin';
 import { db } from '@/lib/firebase-admin';
-import { jobModel } from '@/lib/models/job';
 
 const SUPER_ADMIN_EMAIL = 'klassicmann0@gmail.com';
 
@@ -21,7 +20,8 @@ export async function POST(request) {
         let decodedToken;
         try {
             decodedToken = await auth.verifyIdToken(token);
-        } catch (error) {
+        } catch (err) {
+            console.error('Token verification error:', err);
             return NextResponse.json(
                 { error: 'Invalid authentication token' },
                 { status: 401 }
@@ -64,11 +64,11 @@ export async function POST(request) {
             },
             { status: 201 }
         );
-    } catch (error) {
-        console.error('Error creating job:', error);
+    } catch (err) {
+        console.error('Error creating job:', err);
 
         return NextResponse.json(
-            { message: 'Failed to create job', error: error.message },
+            { message: 'Failed to create job', error: err.message },
             { status: 500 }
         );
     }
@@ -126,8 +126,8 @@ export async function GET(request) {
                     });
                     
                     return NextResponse.json({ jobs, total: jobs.length });
-                } catch (error) {
-                    console.error('Error verifying token:', error);
+                } catch (err) {
+                    console.error('Error verifying token:', err);
                 }
             }
         }
@@ -184,11 +184,11 @@ export async function GET(request) {
             { jobs, total: jobs.length },
             { status: 200 }
         );
-    } catch (error) {
-        console.error('Error fetching jobs:', error);
+    } catch (err) {
+        console.error('Error fetching jobs:', err);
 
         return NextResponse.json(
-            { message: 'Failed to fetch jobs', error: error.message },
+            { message: 'Failed to fetch jobs', error: err.message },
             { status: 500 }
         );
     }

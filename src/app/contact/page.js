@@ -20,7 +20,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-16 px-4">
       <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8">
         <h1 className="text-3xl font-bold mb-2 text-blue-700">Contact Us</h1>
-        <p className="text-gray-600 mb-8">We'd love to hear from you! Fill out the form below and our team will get back to you soon.</p>
+        <p className="text-gray-600 mb-8">We&apos;d love to hear from you! Fill out the form below and our team will get back to you soon.</p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block mb-1 font-medium text-gray-700">Name</label>
@@ -67,7 +67,7 @@ export default function ContactPage() {
         </form>
         {submitted && (
           <div className="mt-6 text-green-600 font-semibold text-center">
-            Thank you for contacting us! We'll get back to you soon.
+            Thank you for contacting us! We&apos;ll get back to you soon.
           </div>
         )}
         <div className="mt-10 border-t pt-6">

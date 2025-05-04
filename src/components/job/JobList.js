@@ -9,7 +9,6 @@ import { incrementFilterCounts } from '@/lib/jobFilterAnalytics';
 import { trackSearchTerm } from '@/lib/searchAnalytics';
 
 const JobList = ({ initialJobs = [], showFilters = true, showSearchBar = true, title = "Latest Jobs" }) => {
-    const [jobs, setJobs] = useState([]);
     const [filteredJobs, setFilteredJobs] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchInput, setSearchInput] = useState('');
@@ -32,7 +31,6 @@ const JobList = ({ initialJobs = [], showFilters = true, showSearchBar = true, t
     // Initialize with the jobs passed as props
     useEffect(() => {
         if (initialJobs && initialJobs.length > 0) {
-            setJobs(initialJobs);
             setFilteredJobs(initialJobs);
         }
         setIsLoading(false);

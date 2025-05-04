@@ -13,7 +13,7 @@ export default function Header() {
     const router = useRouter();
     
     // Use the auth context
-    const { currentUser, isSuperAdmin, logout } = useAuth() || {};
+    const { currentUser, logout } = useAuth() || {};
 
     // Check if the header should be transparent (only on homepage)
     const isHomepage = pathname === '/';

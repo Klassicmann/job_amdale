@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { FaPlus, FaTrash, FaEdit, FaUserShield } from 'react-icons/fa';
 import { useAuth } from '@/contexts/AuthContext';
 import ClientProviders from '@/components/providers/ClientProviders';
-import Header from '@/components/common/Header';
 
 const ManageUsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -111,7 +110,8 @@ const ManageUsersPage = () => {
         month: 'long',
         day: 'numeric',
       });
-    } catch (error) {
+    } catch (err) {
+      console.error('Error formatting date:', err);
       return 'N/A';
     }
   };
