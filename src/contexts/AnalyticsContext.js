@@ -54,6 +54,7 @@ export const AnalyticsProvider = ({ children }) => {
         return () => {
             window.removeEventListener('beforeunload', handleUnload);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Function to update user profile data

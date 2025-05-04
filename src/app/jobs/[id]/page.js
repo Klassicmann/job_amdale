@@ -120,13 +120,13 @@ const sampleRelatedJobs = [
         applyUrl: 'https://example.com/apply',
         description: (
             <div>
-                We're looking for a Data Scientist to help us discover the information hidden in vast amounts of data, and help us make smarter decisions to deliver even better products.
+                We&apos;re looking for a Data Scientist to help us discover the information hidden in vast amounts of data, and help us make smarter decisions to deliver even better products.
 
                 <h3>Responsibilities:</h3>
                 <ul>
                     <li>Selecting features, building and optimizing classifiers using machine learning techniques</li>
                     <li>Data mining using state-of-the-art methods</li>
-                    <li>Extending company's data with third party sources of information when needed</li>
+                    <li>Extending company&apos;s data with third party sources of information when needed</li>
                     <li>Enhancing data collection procedures to include information that is relevant for building analytic systems</li>
                     <li>Processing, cleansing, and verifying the integrity of data used for analysis</li>
                     <li>Doing ad-hoc analysis and presenting results in a clear manner</li>
@@ -304,7 +304,7 @@ export default function JobDetailPage() {
                         </svg>
                     </div>
                     <h2 className="text-3xl font-bold text-gray-800 mb-4">Job Not Found</h2>
-                    <p className="text-gray-600 mb-8 text-lg">The job you're looking for doesn't exist or has been removed.</p>
+                    <p className="text-gray-600 mb-8 text-lg">The job you &apos;re looking for doesn&apos;t exist or has been removed.</p>
                     <Link
                         href="/jobs"
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 inline-flex items-center"
@@ -490,7 +490,7 @@ export default function JobDetailPage() {
                                 Apply Now <FaExternalLinkAlt className="ml-2" />
                             </a>
                             <p className="text-sm text-gray-500 text-center">
-                                This will take you to the company's website
+                                This will take you to the company&apos;s website
                             </p>
                             
                             {job.salary && (
