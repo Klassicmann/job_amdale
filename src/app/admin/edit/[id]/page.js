@@ -876,8 +876,7 @@ const EditJobPage = () => {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                                    }`}
+                                className={isSubmitting ? 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 opacity-70 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200'}
                             >
                                 {isSubmitting ? 'Updating Job...' : 'Update Job'}
                             </button>

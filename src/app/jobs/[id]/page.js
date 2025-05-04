@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaBuilding, FaDollarSign, FaShareAlt, FaBookmark, FaExternalLinkAlt, FaGraduationCap, FaLanguage, FaPlane, FaUserTie } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaBuilding, FaDollarSign, FaShareAlt, FaBookmark, FaExternalLinkAlt, FaGraduationCap, FaLanguage, FaUserTie } from 'react-icons/fa';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
 import ClientProviders from '@/components/providers/ClientProviders';
 import { getJobById } from '@/lib/services/jobService';
@@ -20,26 +20,34 @@ const sampleRelatedJobs = [
         salary: '$120,000 - $140,000',
         category: 'Technology',
         applyUrl: 'https://example.com/apply',
-        description: `We are looking for a Senior Frontend Developer to join our team. You will be responsible for building and maintaining user interfaces for our web applications.
+        description: (
+            <div>
+                We are looking for a Senior Frontend Developer to join our team. You will be responsible for building and maintaining user interfaces for our web applications.
 
-    **Responsibilities:**
-    - Develop new user-facing features using React.js
-    - Build reusable components and front-end libraries for future use
-    - Translate designs and wireframes into high-quality code
-    - Optimize components for maximum performance across a vast array of web-capable devices and browsers
-    
-    **Requirements:**
-    - 4+ years of experience with frontend development
-    - Strong proficiency in JavaScript, including DOM manipulation and the JavaScript object model
-    - Thorough understanding of React.js and its core principles
-    - Experience with popular React.js workflows (such as Flux or Redux)
-    - Familiarity with newer specifications of ECMAScript
-    - Experience with data structure libraries (e.g., Immutable.js)
-    - Knowledge of isomorphic React is a plus
-    - Understanding of REST APIs and GraphQL
-    - Familiarity with modern front-end build pipelines and tools
-    - Experience with common front-end development tools such as Babel, Webpack, NPM, etc.
-    - A knack for benchmarking and optimization`,
+                <h3>Responsibilities:</h3>
+                <ul>
+                    <li>Develop new user-facing features using React.js</li>
+                    <li>Build reusable components and front-end libraries for future use</li>
+                    <li>Translate designs and wireframes into high-quality code</li>
+                    <li>Optimize components for maximum performance across a vast array of web-capable devices and browsers</li>
+                </ul>
+
+                <h3>Requirements:</h3>
+                <ul>
+                    <li>4+ years of experience with frontend development</li>
+                    <li>Strong proficiency in JavaScript, including DOM manipulation and the JavaScript object model</li>
+                    <li>Thorough understanding of React.js and its core principles</li>
+                    <li>Experience with popular React.js workflows (such as Flux or Redux)</li>
+                    <li>Familiarity with newer specifications of ECMAScript</li>
+                    <li>Experience with data structure libraries (e.g., Immutable.js)</li>
+                    <li>Knowledge of isomorphic React is a plus</li>
+                    <li>Understanding of REST APIs and GraphQL</li>
+                    <li>Familiarity with modern front-end build pipelines and tools</li>
+                    <li>Experience with common front-end development tools such as Babel, Webpack, NPM, etc.</li>
+                    <li>A knack for benchmarking and optimization</li>
+                </ul>
+            </div>
+        ),
         keywords: ['React', 'JavaScript', 'Frontend', 'Redux', 'GraphQL'],
         createdAt: '2025-03-01T12:00:00.000Z',
         updatedAt: '2025-03-01T12:00:00.000Z',
@@ -62,24 +70,32 @@ const sampleRelatedJobs = [
         salary: '$90,000 - $110,000',
         category: 'Design',
         applyUrl: 'https://example.com/apply',
-        description: `We are seeking a talented UX/UI Designer to create amazing user experiences. The ideal candidate should have an eye for clean and artful design, possess superior UI skills, and be able to translate high-level requirements into interaction flows and artifacts.
+        description: (
+            <div>
+                We are seeking a talented UX/UI Designer to create amazing user experiences. The ideal candidate should have an eye for clean and artful design, possess superior UI skills, and be able to translate high-level requirements into interaction flows and artifacts.
 
-    **Responsibilities:**
-    - Collaborate with product management and engineering to define and implement innovative solutions for product direction, visuals, and experience
-    - Execute all visual design stages from concept to final hand-off to engineering
-    - Conceptualize original ideas that bring simplicity and user friendliness to complex design challenges
-    - Create wireframes, storyboards, user flows, process flows and site maps to effectively communicate interaction and design ideas
-    - Present and defend designs and key deliverables to peers and executive level stakeholders
-    - Conduct user research and evaluate user feedback
-    - Establish and promote design guidelines, best practices, and standards
+                <h3>Responsibilities:</h3>
+                <ul>
+                    <li>Collaborate with product management and engineering to define and implement innovative solutions for product direction, visuals, and experience</li>
+                    <li>Execute all visual design stages from concept to final hand-off to engineering</li>
+                    <li>Conceptualize original ideas that bring simplicity and user friendliness to complex design challenges</li>
+                    <li>Create wireframes, storyboards, user flows, process flows and site maps to effectively communicate interaction and design ideas</li>
+                    <li>Present and defend designs and key deliverables to peers and executive level stakeholders</li>
+                    <li>Conduct user research and evaluate user feedback</li>
+                    <li>Establish and promote design guidelines, best practices, and standards</li>
+                </ul>
 
-    **Requirements:**
-    - Proven work experience as a UI/UX Designer or similar role
-    - Portfolio of design projects
-    - Knowledge of wireframe tools (e.g. Wireframe.cc, InVision, Figma)
-    - Up-to-date knowledge of design software like Adobe Illustrator and Photoshop
-    - Team spirit; strong communication skills to collaborate with various stakeholders
-    - Good time-management skills`,
+                <h3>Requirements:</h3>
+                <ul>
+                    <li>Proven work experience as a UI/UX Designer or similar role</li>
+                    <li>Portfolio of design projects</li>
+                    <li>Knowledge of wireframe tools (e.g. Wireframe.cc, InVision, Figma)</li>
+                    <li>Up-to-date knowledge of design software like Adobe Illustrator and Photoshop</li>
+                    <li>Team spirit; strong communication skills to collaborate with various stakeholders</li>
+                    <li>Good time-management skills</li>
+                </ul>
+            </div>
+        ),
         keywords: ['UX', 'UI', 'Design', 'Figma', 'Adobe'],
         createdAt: '2025-03-05T14:30:00.000Z',
         updatedAt: '2025-03-05T14:30:00.000Z',
@@ -102,26 +118,34 @@ const sampleRelatedJobs = [
         salary: '$130,000 - $160,000',
         category: 'Technology',
         applyUrl: 'https://example.com/apply',
-        description: `We're looking for a Data Scientist to help us discover the information hidden in vast amounts of data, and help us make smarter decisions to deliver even better products.
+        description: (
+            <div>
+                We're looking for a Data Scientist to help us discover the information hidden in vast amounts of data, and help us make smarter decisions to deliver even better products.
 
-    **Responsibilities:**
-    - Selecting features, building and optimizing classifiers using machine learning techniques
-    - Data mining using state-of-the-art methods
-    - Extending company's data with third party sources of information when needed
-    - Enhancing data collection procedures to include information that is relevant for building analytic systems
-    - Processing, cleansing, and verifying the integrity of data used for analysis
-    - Doing ad-hoc analysis and presenting results in a clear manner
-    - Creating automated anomaly detection systems and constant tracking of its performance
+                <h3>Responsibilities:</h3>
+                <ul>
+                    <li>Selecting features, building and optimizing classifiers using machine learning techniques</li>
+                    <li>Data mining using state-of-the-art methods</li>
+                    <li>Extending company's data with third party sources of information when needed</li>
+                    <li>Enhancing data collection procedures to include information that is relevant for building analytic systems</li>
+                    <li>Processing, cleansing, and verifying the integrity of data used for analysis</li>
+                    <li>Doing ad-hoc analysis and presenting results in a clear manner</li>
+                    <li>Creating automated anomaly detection systems and constant tracking of its performance</li>
+                </ul>
 
-    **Requirements:**
-    - 3+ years of experience in data science or related field
-    - Strong problem-solving skills with an emphasis on product development
-    - Experience using statistical computer languages (R, Python, SQL, etc.) to manipulate data and draw insights from large data sets
-    - Experience working with and creating data architectures
-    - Knowledge of a variety of machine learning techniques (clustering, decision tree learning, artificial neural networks, etc.) and their real-world advantages/drawbacks
-    - Knowledge of advanced statistical techniques and concepts (regression, properties of distributions, statistical tests and proper usage, etc.) and experience with applications
-    - Excellent written and verbal communication skills for coordinating across teams
-    - A drive to learn and master new technologies and techniques`,
+                <h3>Requirements:</h3>
+                <ul>
+                    <li>3+ years of experience in data science or related field</li>
+                    <li>Strong problem-solving skills with an emphasis on product development</li>
+                    <li>Experience using statistical computer languages (R, Python, SQL, etc.) to manipulate data and draw insights from large data sets</li>
+                    <li>Experience working with and creating data architectures</li>
+                    <li>Knowledge of a variety of machine learning techniques (clustering, decision tree learning, artificial neural networks, etc.) and their real-world advantages/drawbacks</li>
+                    <li>Knowledge of advanced statistical techniques and concepts (regression, properties of distributions, statistical tests and proper usage, etc.) and experience with applications</li>
+                    <li>Excellent written and verbal communication skills for coordinating across teams</li>
+                    <li>A drive to learn and master new technologies and techniques</li>
+                </ul>
+            </div>
+        ),
         keywords: ['Python', 'Machine Learning', 'AI', 'Data Mining', 'SQL'],
         createdAt: '2025-03-10T09:15:00.000Z',
         updatedAt: '2025-03-10T09:15:00.000Z',
@@ -355,7 +379,7 @@ export default function JobDetailPage() {
                                     {job.salary && (
                                         <div className="job-salary mb-4">
                                             <FaDollarSign className="mr-1" />
-                                            <span>{job.salary.startsWith('$') ? job.salary : `$${job.salary}`}</span>
+                                            <span>{job.salary.startsWith('$') ? job.salary : '$' + job.salary}</span>
                                         </div>
                                     )}
                                     <div className="flex space-x-3">
@@ -378,35 +402,7 @@ export default function JobDetailPage() {
                             <div className="mb-8">
                                 <h2 className="section-title text-xl font-semibold mb-6 text-gray-800">Job Description</h2>
                                 <div className="job-description prose max-w-none text-gray-700">
-                                    {job.description.split('\n\n').map((paragraph, index) => {
-                                        // Check if paragraph starts with ** for headers
-                                        if (paragraph.startsWith('**') && paragraph.includes(':**')) {
-                                            const [header, content] = paragraph.split(':**');
-                                            return (
-                                                <div key={index} className="mb-5">
-                                                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                                                        {header.replace(/\*\*/g, '')}
-                                                    </h3>
-                                                    <p className="text-gray-700">{content}</p>
-                                                </div>
-                                            );
-                                        } else if (paragraph.startsWith('- ')) {
-                                            // Handle bullet points
-                                            return (
-                                                <ul key={index} className="list-disc pl-5 mb-4 text-gray-700 space-y-1">
-                                                    {paragraph.split('\n').map((item, i) => (
-                                                        <li key={i}>{item.replace('- ', '')}</li>
-                                                    ))}
-                                                </ul>
-                                            );
-                                        } else {
-                                            return (
-                                                <p key={index} className="mb-4 text-gray-700">
-                                                    {paragraph}
-                                                </p>
-                                            );
-                                        }
-                                    })}
+                                    {job.description}
                                 </div>
                             </div>
 
@@ -502,9 +498,7 @@ export default function JobDetailPage() {
                                     <h3 className="text-md font-semibold mb-3 text-gray-700">Compensation</h3>
                                     <div className="bg-green-50 p-4 rounded-lg flex items-center justify-center">
                                         <FaDollarSign className="text-green-600 mr-2 text-xl" />
-                                        <span className="text-green-700 font-bold text-lg">
-                                            {job.salary.startsWith('$') ? job.salary : `$${job.salary}`}
-                                        </span>
+                                        <span className="text-green-700 font-bold text-lg">{job.salary.startsWith('$') ? job.salary : '$' + job.salary}</span>
                                     </div>
                                 </div>
                             )}
@@ -527,7 +521,7 @@ export default function JobDetailPage() {
                                     {relatedJobs.map(relatedJob => (
                                         <div key={relatedJob.id} className="related-job-card border-b border-gray-100 pb-5 last:border-0 last:pb-0 pl-3">
                                             <Link
-                                                href={`/jobs/${relatedJob.id}`}
+                                                href={'/jobs/' + relatedJob.id}
                                                 className="text-lg font-medium text-gray-800 hover:text-blue-600 block mb-2"
                                             >
                                                 {relatedJob.title}
@@ -546,7 +540,7 @@ export default function JobDetailPage() {
                                                 {relatedJob.salary && (
                                                     <div className="flex items-center text-sm bg-green-50 px-2 py-1 rounded">
                                                         <FaDollarSign className="mr-1 text-green-500" />
-                                                        <span className="text-green-700">{relatedJob.salary.startsWith('$') ? relatedJob.salary : `$${relatedJob.salary}`}</span>
+                                                        <span className="text-green-700">{relatedJob.salary.startsWith('$') ? relatedJob.salary : '$' + relatedJob.salary}</span>
                                                     </div>
                                                 )}
                                             </div>

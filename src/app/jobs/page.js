@@ -42,7 +42,7 @@ const dummyJobs = [
         type: 'Full-time',
         salary: '$130,000 - $160,000',
         category: 'Technology',
-        description: 'We\'re looking for a Data Scientist to help us discover the information hidden in vast amounts of data, and help us make smarter decisions to deliver even better products.',
+        description: 'We&apos;re looking for a Data Scientist to help us discover the information hidden in vast amounts of data, and help us make smarter decisions to deliver even better products.',
         keywords: ['Python', 'Machine Learning', 'AI', 'Data Mining', 'SQL'],
         createdAt: '2025-03-10T09:15:00.000Z',
         updatedAt: '2025-03-10T09:15:00.000Z'
@@ -55,7 +55,7 @@ const dummyJobs = [
         type: 'Full-time',
         salary: '$85,000 - $105,000',
         category: 'Marketing',
-        description: 'We are looking for a Marketing Manager to promote our company\'s products and services. The ideal candidate will have experience developing marketing campaigns across different channels.',
+        description: 'We are looking for a Marketing Manager to promote our company&apos;s products and services. The ideal candidate will have experience developing marketing campaigns across different channels.',
         keywords: ['Digital Marketing', 'Content Strategy', 'SEO', 'Social Media', 'Analytics'],
         createdAt: '2025-03-08T11:45:00.000Z',
         updatedAt: '2025-03-08T11:45:00.000Z'

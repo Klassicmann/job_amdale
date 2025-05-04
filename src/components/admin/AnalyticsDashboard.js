@@ -21,8 +21,7 @@ const mockTopJobs = [
 ];
 const mockEngagement = {
   activeUsers: 320,
-  applicationsToday: 45,
-  totalJobs: 87,
+  applicationsToday: 45,  totalJobs: 87,
 };
 
 // Helper component for Stat Cards
